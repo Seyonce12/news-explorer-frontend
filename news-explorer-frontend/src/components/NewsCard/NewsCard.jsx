@@ -15,19 +15,6 @@ export default function NewsCard({ article }) {
     }
   }, [id]);
 
-  useEffect(() => {
-    function onStorage() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || '[]');
-        setIsSaved(saved.some(a => a.id === id));
-      } catch {
-        setIsSaved(false);
-      }
-    }
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, [id]);
-
   function toggleSave(e) {
     e.preventDefault();
     const list = JSON.parse(localStorage.getItem(SAVED_KEY) || '[]');

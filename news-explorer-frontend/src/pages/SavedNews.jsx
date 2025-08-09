@@ -6,16 +6,8 @@ export default function SavedNews(){
   const [saved, setSaved] = useState([]);
 
   useEffect(()=>{
-    try {
-      setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'));
-    } catch {
-      setSaved([]);
-    }
-
-    function onStorage(){
-      try { setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); }
-      catch { setSaved([]); }
-    }
+    try { setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); } catch { setSaved([]); }
+    function onStorage(){ try { setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); } catch { setSaved([]); } }
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);

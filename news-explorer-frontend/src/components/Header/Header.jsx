@@ -6,11 +6,11 @@ export default function Header({ onOpenLogin, onOpenRegister }) {
   return (
     <header className="header">
       <div className="header__inner container">
-        <Link to="/" className="header__brand" aria-label="News Explorer home">
-          <div className="header__logo" aria-hidden="true">NE</div>
+        <Link to="/" className="header__brand" aria-label="Home">
+          <div className="header__logo">NE</div>
           <div className="header__title-wrap">
-            <h1 className="header__title">News Explorer</h1>
-            <p className="header__subtitle">What's happening in the world?</p>
+            <div className="header__title">News Explorer</div>
+            <div className="header__subtitle"></div>
           </div>
         </Link>
 
