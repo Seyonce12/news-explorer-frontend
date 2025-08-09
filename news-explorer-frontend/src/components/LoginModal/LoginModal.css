@@ -1,0 +1,4 @@
+.auth-form{display:flex;flex-direction:column;gap:10px}
+.auth-form__label{font-size:14px;display:flex;flex-direction:column;gap:6px}
+.auth-form__input{padding:8px;border-radius:8px;border:1px solid rgba(26,27,34,0.06)}
+.auth-form__actions{display:flex;gap:8px;justify-content:flex-end}

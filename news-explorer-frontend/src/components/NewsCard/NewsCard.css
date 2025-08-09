@@ -1,0 +1,10 @@
+.news-card{display:flex;flex-direction:column;min-height:320px}
+.news-card__image{width:100%;height:170px;object-fit:cover;display:block}
+.news-card__body{padding:16px;display:flex;flex-direction:column;gap:10px}
+.news-card__meta{display:flex;justify-content:space-between;font-size:13px;color:var(--color-muted)}
+.news-card__title{font-family:var(--font-heading);font-size:18px;margin:0}
+.news-card__desc{margin:0;color:var(--color-muted)}
+.news-card__actions{display:flex;gap:12px;align-items:center;margin-top:auto}
+.news-card__save{background:var(--color-primary);color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+.news-card__save--saved{background:#2a9d66}
+.news-card__read{color:var(--color-muted);text-decoration:underline}
