@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import SearchForm from '../components/SearchForm/SearchForm';
 import Preloader from '../components/Preloader/Preloader';
@@ -18,7 +17,13 @@ export default function Home() {
         setResults(mockArticles);
       } else {
         const lc = q.toLowerCase();
-        setResults(mockArticles.filter(a => (a.title + ' ' + a.description + ' ' + a.source).toLowerCase().includes(lc)));
+        setResults(
+          mockArticles.filter(a =>
+            (a.title + ' ' + a.description + ' ' + a.source)
+              .toLowerCase()
+              .includes(lc)
+          )
+        );
       }
       setLoading(false);
     }, 900);
@@ -26,22 +31,31 @@ export default function Home() {
 
   return (
     <section>
-      <div className="container" style={paddingTop:24}>
-        <h2 className="h1">"What's going on in the world?"</h2>
-        <p className="p-lg">"Find the latest news on any topic and save them in your personal account."</p>
+      <div className="container" style={{ paddingTop: 24 }}>
+        <h2 className="h1">What's going on in the world?</h2>
+        <p className="p-lg">
+          Find the latest news on any topic and save them in your personal account.
+        </p>
       </div>
 
       <SearchForm onSearch={doSearch} />
 
-      <div className="container" style={marginTop:20}>
-        {loading ? <Preloader /> : (
+      <div className="container" style={{ marginTop: 20 }}>
+        {loading ? (
+          <Preloader />
+        ) : (
           <>
-            <div style={display:'flex',justifyContent:'space-between',alignItems:'center'}>
-              <div className="meta">{results.length} results{query ? ` for “${query}”` : ''}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="meta">
+                {results.length} results
+                {query ? ` for “${query}”` : ''}
+              </div>
             </div>
 
             <div className="grid">
-              {results.map(a => <NewsCard key={a.id} article={a} />)}
+              {results.map(a => (
+                <NewsCard key={a.id} article={a} />
+              ))}
             </div>
           </>
         )}
