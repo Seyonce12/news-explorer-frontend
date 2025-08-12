@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
-import './SearchForm.css';
+import React from 'react'
+import './SearchForm.css'
+import { findBlockContaining } from '../../utils/figmaHelpers'
 
-export default function SearchForm({ onSearch }) {
-  const [value, setValue] = useState('');
+const placeholderFromFigma = findBlockContaining('Введите в поиске') || findBlockContaining('Search for') || 'Search for news, e.g. technology, design'
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    onSearch(value.trim());
-  };
-
+export default function SearchForm(){
   return (
-    <section className="search" aria-labelledby="search-heading">
-      <div className="container">
-        <form className="search__form card" onSubmit={onSubmit}>
-          <input id="search-input" type="search" className="search__input" placeholder="Enter topic, e.g. nature" value={value} onChange={(e)=>setValue(e.target.value)} aria-label="Search for news" required />
-          <button className="btn search__btn" type="submit">Search</button>
-        </form>
+    <div className="searchform container" style={{paddingTop:20}}>
+      <div className="search-field" role="search">
+        <input type="search" placeholder={placeholderFromFigma} aria-label="Search" />
       </div>
-    </section>
-  );
+      <button className="search-button" aria-label="Search">{findBlockContaining('Search') || 'Search'}</button>
+    </div>
+  )
 }

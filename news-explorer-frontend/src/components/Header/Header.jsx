@@ -1,29 +1,21 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import './Header.css';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import './Header.css'
 
-export default function Header({ onOpenLogin, onOpenRegister }) {
+export default function Header(){
   return (
-    <header className="header">
-      <div className="header__inner container">
-        <Link to="/" className="header__brand" aria-label="Home">
-          <div className="header__logo">NE</div>
-          <div className="header__title-wrap">
-            <div className="header__title">News Explorer</div>
-            <div className="header__subtitle"></div>
-          </div>
-        </Link>
-
-        <nav className="header__nav" aria-label="Main navigation">
-          <NavLink to="/" className={({isActive}) => `header__link${isActive ? ' header__link--active' : ''}`}>Home</NavLink>
-          <NavLink to="/saved-news" className={({isActive}) => `header__link${isActive ? ' header__link--active' : ''}`}>Saved</NavLink>
-        </nav>
-
-        <div className="header__actions">
-          <button className="header__btn header__btn--ghost" onClick={onOpenLogin}>Sign in</button>
-          <button className="header__btn" onClick={onOpenRegister}>Sign up</button>
+    <header className="header container">
+      <div className="header__logo">
+        <Link to="/"><img src="/assets/images/Main_Not_Logged_In/about-author/comment/avatar/image-03/comment/avatar/avatar.png" alt="logo" style={{height:48}}/></Link>
+        <div>
+          <Link to="/" style={{textDecoration:'none',color:'inherit'}}><h2>News Explorer</h2></Link>
+          <small>Find and save articles</small>
         </div>
       </div>
+      <nav className="header__nav">
+        <Link to="/">Home</Link>
+        <Link to="/saved-news">Saved</Link>
+      </nav>
     </header>
-  );
+  )
 }

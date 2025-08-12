@@ -1,11 +1,132 @@
+@font-face{
+  font-family: 'Roboto';
+  src: url('/assets/fonts/Roboto.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'Roboto Slab';
+  src: url('/assets/fonts/Roboto-Slab.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  src: url('/assets/fonts/Source-Sans-Pro.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'SF Pro Text';
+  src: url('/assets/fonts/SF-Pro-Text.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Rest of CSS (from figma) */
+@font-face{
+  font-family: 'Roboto';
+  src: url('/assets/fonts/Roboto.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face{
+  font-family: 'Roboto Slab';
+  src: url('/assets/fonts/Roboto.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+:root{
+  --main-primary: #1A1B22; /* figma main/primary */ 
+  --main-white: #FFFFFF;
+  --accent: #2F71E5; /* figma search button (used widely) */
+  --sim-gray-divider: #D1D2D6;
+  --sim-gray-text: #B6BCBF;
+  --card-bg: #FFFFFF;
+  --bg: #F5F6F7;
+  --radius: 16px;
+}
+
 *{box-sizing:border-box}
 html,body,#root{height:100%}
-body{margin:0;font-family:var(--font-body);background:var(--color-bg);color:var(--color-text);-webkit-font-smoothing:antialiased}
-.container{max-width:1100px;margin:0 auto;padding:0 16px}
-.h1{font-family:var(--font-heading);font-size:var(--hero-h1);margin:0}
-.p-lg{font-size:var(--body-lg);color:var(--color-muted);margin:0}
-.card{background:var(--color-surface);border-radius:var(--radius-lg);box-shadow:0 6px 18px rgba(17,22,40,0.06);overflow:hidden}
-.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.btn{padding:10px 16px;border-radius:10px;border:0;background:var(--color-primary);color:white;cursor:pointer}
-.btn-ghost{background:transparent;border:1px solid rgba(26,27,34,0.06);padding:8px 12px;border-radius:10px}
-:focus{outline:3px solid rgba(47,113,229,0.18);outline-offset:3px}
+body{
+  margin:0;
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:var(--bg);
+  color:var(--main-primary);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.4;
+}
+
+/* Hero / Search area (desktop) */
+.hero{
+  position:relative;
+  width:100%;
+  height:576px; /* figma search section height */
+  background-image: url('/assets/images/Main_Results_Not_Logged_In/card/card/image_04/card/card.png'); /* replace with georgia image if available */
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+}
+.hero__inner{width:608px; padding-top:160px; color:var(--main-white); text-align:left}
+.hero__title{
+  font-family:'Roboto Slab'; font-weight:400; font-size:60px; line-height:64px; margin:0; color:var(--main-white);
+}
+.hero__subtitle{font-family:'Roboto'; font-size:18px; line-height:24px; margin-top:24px; color:var(--main-white)}
+
+/* Search field */
+.search-row{position:relative; margin-top:32px; display:flex; gap:16px; align-items:center}
+.search-field{
+  width:608px; height:64px; background:var(--main-white); border-radius:100px; border:1px solid var(--sim-gray-divider); padding:14px 22px; display:flex; align-items:center;
+  box-sizing:border-box;
+}
+.search-field input{flex:1; border:0; outline:none; font-family:'Roboto'; font-size:16px; line-height:22px; color:var(--main-primary); background:transparent}
+.search-button{width:168px; height:64px; border-radius:100px; background:var(--accent); box-shadow:0px 5px 15px rgba(14,26,57,0.2); border:0; font-family:'Roboto'; font-weight:500; font-size:18px; line-height:24px; color:var(--main-white); display:flex; align-items:center; justify-content:center; cursor:pointer}
+
+/* Container */
+.container{max-width:1150px; margin:0 auto; padding:0 20px;}
+
+/* News grid and cards */
+.news-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; padding:32px 0}
+@media (max-width:900px){ .news-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:600px){ .news-grid{grid-template-columns:1fr} }
+
+.card{background:var(--card-bg); border-radius:16px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.06); display:flex; flex-direction:column}
+.card__img{width:100%; height:272px; object-fit:cover} /* figma card image 400x272 */
+.card__body{padding:16px; display:flex; flex-direction:column; gap:12px; flex:1}
+.card__title{font-family:'Roboto Slab'; font-size:22px; line-height:26px; margin:0; color:var(--main-primary)}
+.card__desc{font-family:'Roboto'; font-size:16px; line-height:22px; color:var(--main-primary); opacity:0.85; margin:0; flex:1}
+.card__meta{display:flex; justify-content:space-between; align-items:center; font-family:'Source Sans Pro', 'Roboto'; font-size:18px; line-height:24px; color:var(--sim-gray-text)}
+
+/* Header & nav */
+.header{display:flex; align-items:center; justify-content:space-between; padding:24px 0; background:var(--main-white)}
+.header__logo img{height:48px; border-radius:8px}
+.header__nav a{color:var(--main-primary); text-decoration:none; padding:6px 10px; border-radius:6px}
+.header__nav a:hover{background:#f0f0f0}
+
+/* Modal basics (figma requires overlay + close behavior) */
+.modal-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:4000}
+.modal{background:var(--main-white); padding:20px; border-radius:12px; min-width:320px; max-width:680px}
+
+/* Preloader */
+.preloader{display:flex; align-items:center; justify-content:center; padding:120px 0}

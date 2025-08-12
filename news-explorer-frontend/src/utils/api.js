@@ -1,18 +1,16 @@
-export async function fetchArticles(queryParams = '') {
-  const base = import.meta.env.VITE_NEWS_API_BASE || '';
-  const url = base ? `${base}?${queryParams}` : null;
+import { firstLongBlocks, findBlockContaining } from './figmaHelpers'
 
-  if (!url) {
-    return Promise.reject(new Error('NO_API_CONFIGURED'));
-  }
+const longBlocks = firstLongBlocks(3, 60)
+const MOCK = longBlocks.map((b, i) => ({
+  id: String(i+1),
+  title: b.split('\n')[0].slice(0, 80), // first line (trimmed) as title
+  description: b,
+  source: 'From Figma',
+  image: `/assets/images/Main_Results_Not_Logged_In/card/card/image_0${4+i}/card/card.png`,
+  date: '2025-01-01'
+}))
 
-  return fetch(url, { method: 'GET' })
-    .then(res => {
-      if (!res.ok) throw new Error(`Network response was not ok (${res.status})`);
-      return res.json();
-    })
-    .catch(err => {
-      console.error('fetchArticles error:', err);
-      throw err;
-    });
+export async function fetchTopArticles(){
+  await new Promise(res => setTimeout(res, 600))
+  return MOCK
 }
