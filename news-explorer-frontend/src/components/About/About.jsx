@@ -15,7 +15,7 @@ function About() {
         <div className="about__info">
           <h3 className="about__title">About the author</h3>
          <p className="about__paragraph">
-  My name is Sikder Sabrina, and I’m an enthusiastic software programmer with a
+  My name is Sabrina Florence, and I’m an enthusiastic software programmer with a
   passion for exploring and working with the latest technologies. I thrive on
   discovering innovative tools and approaches that make development smarter and
   more creative.
