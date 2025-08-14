@@ -1,17 +1,111 @@
-import React, {useState} from 'react'
-import ModalWithForm from '../ModalWithForm/ModalWithForm'
+import React, { useState, useEffect } from "react";
+import "./RegisterModal.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-export default function RegisterModal({open,onClose}){
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
+function RegisterModal({ isOpen, onClose, onLoginClick, onSubmit }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Check form validity whenever inputs change
+  useEffect(() => {
+    setIsFormValid(email !== "" && password !== "" && username !== "");
+  }, [email, password, username]);
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    onLoginClick();
+  };
+
   return (
-    <ModalWithForm open={open} onClose={onClose}>
-      <h2>Register</h2>
-      <form onSubmit={e=>{e.preventDefault(); alert('Register not implemented in Stage 1')}}>
-        <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required />
-        <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} required />
-        <button type="submit">Register</button>
-      </form>
+    <ModalWithForm
+      title="Sign up"
+      name="register"
+      buttonText=""
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      hideDefaultButton={true}
+    >
+      <label className="modal__label" htmlFor="register-email">
+        Email
+      </label>
+      <input
+        id="register-email"
+        type="email"
+        name="email"
+        className="modal__input"
+        placeholder="Enter email"
+        required
+        value={email}
+        onChange={handleEmailChange}
+      />
+
+      <label className="modal__label" htmlFor="register-password">
+        Password
+      </label>
+      <input
+        id="register-password"
+        type="password"
+        name="password"
+        className="modal__input"
+        placeholder="Enter password"
+        required
+        value={password}
+        onChange={handlePasswordChange}
+      />
+
+      <label className="modal__label" htmlFor="register-username">
+        Username
+      </label>
+      <input
+        id="register-username"
+        type="text"
+        name="username"
+        className="modal__input"
+        placeholder="Enter username"
+        required
+        value={username}
+        onChange={handleUsernameChange}
+      />
+
+      <button
+        type="submit"
+        className={`modal__submit-button ${
+          !isFormValid ? "modal__submit-button_disabled" : ""
+        }`}
+        disabled={!isFormValid}
+      >
+        Sign up
+      </button>
+
+      <div className="register-modal__footer">
+        <p className="register-modal__text">
+          or{" "}
+          <button
+            type="button"
+            className="register-modal__link"
+            onClick={handleLoginClick}
+          >
+            Sign in
+          </button>
+        </p>
+      </div>
     </ModalWithForm>
-  )
+  );
 }
+
+export default RegisterModal;

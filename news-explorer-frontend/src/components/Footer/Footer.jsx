@@ -1,15 +1,55 @@
-import React from 'react'
-import './Footer.css'
+import "./Footer.css";
+import githubIcon from "../../assets/github.svg";
+import facebookIcon from "../../assets/FaceBookIcon.svg";
 
-export default function Footer(){
+function Footer() {
   return (
-    <footer style={{padding:'24px 0',borderTop:'1px solid #eee'}} className="container">
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-        <small>© {new Date().getFullYear()} News Explorer</small>
-        <nav>
-          <a href="#" target="_blank" rel="noreferrer">About</a>
+    <footer className="footer">
+      <p className="footer__text">© Supersite, Powered by News API</p>
+      <div className="footer__social">
+        <nav className="footer__nav">
+          <a href="/" className="footer__link">
+            Home
+          </a>
+
+          <a
+            href="https://tripleten.com/"
+            className="footer__link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TriplenTen
+          </a>
         </nav>
+
+        <div className="footer__media">
+          <a
+            href="https://github.com/Elliot-Bachman/news-explorer-frontend"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={githubIcon}
+              alt="GitHub Logo"
+              className="footer__github-icon" loading="lazy"
+            />
+          </a>
+
+          <a
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={facebookIcon}
+              alt="Facebook Logo"
+              className="footer__fb-icon" loading="lazy"
+            />
+          </a>
+        </div>
       </div>
     </footer>
-  )
+  );
 }
+
+export default Footer;

@@ -1,21 +1,38 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './Header.css'
+import "./Header.css";
+import Navigation from "../Navigation/Navigation";
+import SearchForm from "../SearchForm/SearchForm";
 
-export default function Header(){
+function Header({
+  onLoginClick,
+  onLogout,
+  onRegisterClick,
+  handleSearch,
+  currentPath,
+  isLoggedIn,
+}) {
   return (
-    <header className="header container">
-      <div className="header__logo">
-        <Link to="/"><img src="/assets/images/Main_Not_Logged_In/about-author/comment/avatar/image-03/comment/avatar/avatar.png" alt="logo" style={{height:48}}/></Link>
-        <div>
-          <Link to="/" style={{textDecoration:'none',color:'inherit'}}><h2>News Explorer</h2></Link>
-          <small>Find and save articles</small>
-        </div>
+    <header className="header">
+      <div className="header__nav-container">
+        <Navigation
+          onLoginClick={onLoginClick}
+          onLogout={onLogout}
+          onRegisterClick={onRegisterClick}
+          currentPath={currentPath}
+          isLoggedIn={isLoggedIn}
+        />
       </div>
-      <nav className="header__nav">
-        <Link to="/">Home</Link>
-        <Link to="/saved-news">Saved</Link>
-      </nav>
+      <div className="header__text-container">
+        <h1 className="header__title" style={{ color: "#fff" }}>
+          What's going on in the world?
+        </h1>
+        <h2 className="header__subtitle">
+          Find the latest news on any topic and save them in your personal
+          account.
+        </h2>
+      </div>
+      <SearchForm handleSearch={handleSearch} />
     </header>
-  )
+  );
 }
+
+export default Header;

@@ -1,0 +1,15 @@
+.button{
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.primary{ background: #2F71E5; color: #fff; box-shadow: 0px 5px 15px rgba(14,26,57,0.2); }
+.secondary{ background: transparent; color: #2F71E5; border: 1px solid rgba(47,113,229,0.12); }

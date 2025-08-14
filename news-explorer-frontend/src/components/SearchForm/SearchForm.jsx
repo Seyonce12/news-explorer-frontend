@@ -1,16 +1,34 @@
-import React from 'react'
-import './SearchForm.css'
-import { findBlockContaining } from '../../utils/figmaHelpers'
+import React, { useState } from "react";
+import "./SearchForm.css";
 
-const placeholderFromFigma = findBlockContaining('Введите в поиске') || findBlockContaining('Search for') || 'Search for news, e.g. technology, design'
+function SearchForm({ handleSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default function SearchForm(){
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) {
+      alert("Please enter a keyword");
+      return;
+    }
+    handleSearch(searchQuery); // Trigger the API call from App.jsx
+  };
+
   return (
-    <div className="searchform container" style={{paddingTop:20}}>
-      <div className="search-field" role="search">
-        <input type="search" placeholder={placeholderFromFigma} aria-label="Search" />
-      </div>
-      <button className="search-button" aria-label="Search">{findBlockContaining('Search') || 'Search'}</button>
-    </div>
-  )
+    <section className="search-form-container">
+      <form className="search-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="search-form__input"
+          placeholder="Enter topic"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit" className="search-form__button">
+          Search
+        </button>
+      </form>
+    </section>
+  );
 }
+
+export default SearchForm;
