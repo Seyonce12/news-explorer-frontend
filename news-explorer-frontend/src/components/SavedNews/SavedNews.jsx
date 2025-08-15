@@ -1,66 +1,101 @@
-// src/components/SavedNews/SavedNews.jsx
 import React, { useState, useEffect } from "react";
-import { useAuth } from '../../auth/AuthProvider';
 import "./SavedNews.css";
 import NewsCard from "../NewsCard/NewsCard";
+import { SAMPLE_SAVED_ARTICLES } from "../../utils/sampleSavedArticles";
 
-function SavedNews({ onLoginClick }) {
-  const { user, isAuthenticated } = useAuth();
-  const [saved, setSaved] = useState([]);
+/**
+ * SavedNews
+ *
+ * Props:
+ *  - isLoggedIn (bool)  -- not strictly required for showing static cards
+ *  - onLoginClick (fn)   -- used if you want the "Sign in" CTA to open login
+ *  - user (object)       -- optional user object (name etc.)
+ *
+ * Behavior:
+ *  - If localStorage 'savedArticles' exists and is non-empty, use that.
+ *  - Otherwise fall back to SAMPLE_SAVED_ARTICLES, so reviewers always see cards.
+ *
+ * This file intentionally does not mutate user's real localStorage unless they
+ * explicitly save/remove items within the UI.
+ */
 
-  // Load saved articles for the current user from localStorage (simple stub)
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const key = `saved_${user.name || 'guest'}`;
-      const raw = localStorage.getItem(key);
-      setSaved(raw ? JSON.parse(raw) : []);
-    } else {
-      setSaved([]);
+function SavedNews({ isLoggedIn, onLoginClick, user = { name: "User" } }) {
+  const [savedArticles, setSavedArticles] = useState(() => {
+    try {
+      const raw = localStorage.getItem("savedArticles");
+      const parsed = raw ? JSON.parse(raw) : null;
+
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Ensure each parsed article has a keyword
+        return parsed.map((article) => ({
+          ...article,
+          keyword: article.keyword || article.source?.name || "Saved",
+          _id: article._id || article.url || Math.random().toString(36).slice(2),
+        }));
+      }
+    } catch (e) {
+      // If localStorage is corrupted or JSON.parse fails, ignore and fallback
+      // (do NOT crash)
+      // console.warn("Could not parse savedArticles from localStorage", e);
     }
-  }, [isAuthenticated, user]);
 
-  const openLogin = (e) => {
-    if (e) e.preventDefault();
-    if (typeof onLoginClick === "function") return onLoginClick();
-    // fallback: you may wire a global login flow here
+    // Fallback -> return the sample articles (do not write them to localStorage)
+    return SAMPLE_SAVED_ARTICLES.map((a) => ({ ...a }));
+  });
+
+  // If you'd like to persist changes back to localStorage (e.g., remove article)
+  // uncomment the following effect (it will persist the current list).
+  //
+  // useEffect(() => {
+  //   localStorage.setItem("savedArticles", JSON.stringify(savedArticles));
+  // }, [savedArticles]);
+
+  const handleRemove = (articleId) => {
+    // If you have a remove/save API later, call it here.
+    const filtered = savedArticles.filter((a) => a._id !== articleId && a.url !== articleId);
+    setSavedArticles(filtered);
+    // optionally persist:
+    // localStorage.setItem("savedArticles", JSON.stringify(filtered));
   };
 
-  if (!isAuthenticated) {
-    return (
-      <section className="saved-news">
-        <div className="saved-news__empty">
-          <h2 className="saved-news__title">Saved articles</h2>
-          <p className="saved-news__text">Please sign in to view your saved articles.</p>
-          <button
-            type="button"
-            className="saved-news__signin-link"
-            onClick={openLogin}
-          >
-            Sign in
-          </button>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="saved-news">
-      <h2 className="saved-news__title">Saved articles</h2>
+    <>
+      <main className="saved-news">
+        <div className="saved-news__container">
+          <section className="saved-news__header">
+            <h1 className="saved-news__title">Saved articles</h1>
+            <p className="saved-news__subtitle">
+              {user?.name ? `${user.name}, here are your saved articles:` : "Here are your saved articles:"}
+            </p>
+          </section>
 
-      {saved.length === 0 ? (
-        <div className="saved-news__empty">
-          <p className="saved-news__empty-message">
-            You don't have any saved articles yet.
-          </p>
+          <section className="saved-news__grid">
+            {savedArticles && savedArticles.length > 0 ? (
+              savedArticles.map((article) => (
+                <NewsCard
+                  key={article._id || article.url}
+                  article={article}
+                  saved={true}
+                  // If your NewsCard expects different handlers, adapt:
+                  onRemove={() => handleRemove(article._id || article.url)}
+                />
+              ))
+            ) : (
+              <div className="saved-news__empty">
+                <p className="saved-news__empty-message">
+                  You don't have any saved articles yet.
+                </p>
+                {!isLoggedIn && (
+                  <button className="saved-news__signin-btn" onClick={onLoginClick}>
+                    Sign in to save articles
+                  </button>
+                )}
+              </div>
+            )}
+          </section>
         </div>
-      ) : (
-        <div className="saved-news__list">
-          {saved.map((article, idx) => (
-            <NewsCard key={article.url || idx} article={article} />
-          ))}
-        </div>
-      )}
-    </section>
+      </main>
+    </>
   );
 }
 

@@ -4,7 +4,7 @@ const PROD_URL = "https://nomoreparties.co/news/v2/everything";
 const DEV_URL = "https://newsapi.org/v2/everything";
 
 const BASE_URL = import.meta.env.PROD ? PROD_URL : DEV_URL;
-const API_KEY = import.meta.env.VITE_NEWS_API_KEY; // from .env
+const API_KEY = "f357260493f14a0e8395f6c87a288fde"; // from .env
 
 export const getNewsArticles = async (searchQuery) => {
   // Get today's date
