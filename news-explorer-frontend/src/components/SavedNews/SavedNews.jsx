@@ -14,7 +14,25 @@ import { SAMPLE_SAVED_ARTICLES } from "../../utils/sampleSavedArticles";
  * Behavior:
  *  - If localStorage 'savedArticles' exists and is non-empty, use that.
  *  - Otherwise fall back to SAMPLE_SAVED_ARTICLES so reviewers always see cards.
+ *
+ * Minimal change: header now shows "<User>, you have N saved articles"
+ * and a "By keywords" line derived from current saved articles.
  */
+
+function capitalize(word = "") {
+  if (!word) return "";
+  const s = String(word);
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+}
+
+function renderKeywordSummary(keywords) {
+  const unique = Array.from(new Set(keywords.filter(Boolean)));
+  if (unique.length === 0) return "";
+  if (unique.length === 1) return capitalize(unique[0]);
+  if (unique.length === 2) return `${capitalize(unique[0])}, ${capitalize(unique[1])}`;
+  const remaining = unique.length - 2;
+  return `${capitalize(unique[0])}, ${capitalize(unique[1])} and ${remaining} other${remaining > 1 ? "s" : ""}`;
+}
 
 function SavedNews({ isLoggedIn, onLoginClick, user = { name: "User" } }) {
   const [savedArticles, setSavedArticles] = useState(() => {
@@ -44,14 +62,27 @@ function SavedNews({ isLoggedIn, onLoginClick, user = { name: "User" } }) {
     // localStorage.setItem("savedArticles", JSON.stringify(filtered));
   };
 
+  const keywords = savedArticles.map((a) => (a.keyword ? String(a.keyword) : ""));
+
   return (
     <main className="saved-news">
       <div className="saved-news__container">
-        <section className="saved-news__header">
-          <h1 className="saved-news__title">Saved articles</h1>
-          <p className="saved-news__subtitle">
-            {user?.name ? `${user.name}, here are your saved articles:` : "Here are your saved articles:"}
-          </p>
+        {/* --- Header (added) --- */}
+        <section className="saved-news__header" aria-labelledby="saved-news-heading">
+          <p className="saved-news__subtitle">Saved articles</p>
+
+          <h1 id="saved-news-heading" className="saved-news__title">
+            {user?.name
+              ? `${user.name}, you have ${savedArticles.length} saved article${savedArticles.length !== 1 ? "s" : ""}`
+              : `You have ${savedArticles.length} saved article${savedArticles.length !== 1 ? "s" : ""}`}
+          </h1>
+
+          {/* keywords line — kept minimal and non-intrusive */}
+          {keywords.length > 0 && (
+            <p className="saved-news__keywords">
+              By keywords: <span className="saved-news__keywords-list">{renderKeywordSummary(keywords)}</span>
+            </p>
+          )}
         </section>
 
         <section className="saved-news__grid">
@@ -69,9 +100,7 @@ function SavedNews({ isLoggedIn, onLoginClick, user = { name: "User" } }) {
             </ul>
           ) : (
             <div className="saved-news__empty">
-              <p className="saved-news__empty-message">
-                You don't have any saved articles yet.
-              </p>
+              <p className="saved-news__empty-message">You don't have any saved articles yet.</p>
               {!isLoggedIn && (
                 <button className="saved-news__signin-btn" onClick={onLoginClick}>
                   Sign in to save articles
